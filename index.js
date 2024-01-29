@@ -3,11 +3,9 @@ const { createServer } = require("node:http");
 const { join } = require("node:path");
 const { Server } = require("socket.io");
 
-
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
-
 
 app.get("/", (req, res) => {
   res.sendFile(join(__dirname, "index.html"));
@@ -16,6 +14,9 @@ app.get("/", (req, res) => {
 io.on("connection", (socket) => {
   socket.on("chat message", (msg) => {
     io.emit("chat message", msg);
+  });
+  socket.on("typing", () => {
+    socket.broadcast("show_typing_status");
   });
 });
 
