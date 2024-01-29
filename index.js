@@ -16,7 +16,10 @@ io.on("connection", (socket) => {
     io.emit("chat message", msg);
   });
   socket.on("typing", () => {
-    socket.broadcast("show_typing_status");
+    socket.broadcast.emit("show_typing_status");
+  });
+  socket.on("stop_typing", () => {
+    socket.broadcast.emit("stop_typing_status");
   });
 });
 
